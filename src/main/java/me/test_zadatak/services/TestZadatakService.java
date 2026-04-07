@@ -7,16 +7,13 @@ import me.test_zadatak.dtos.Job2skillDTO;
 import me.test_zadatak.dtos.JobCandidateDTO;
 import me.test_zadatak.dtos.SkillDTO;
 import me.test_zadatak.entities.Job2skill;
-import me.test_zadatak.entities.Job2skillId;
 import me.test_zadatak.entities.JobCandidate;
 import me.test_zadatak.entities.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TestZadatakService {
@@ -119,7 +116,7 @@ public class TestZadatakService {
         for (int id : ids) {
             List<JobCandidate> list = jcDAO.findBySkill(id);
             for (JobCandidate jc : list) {
-                if(!old.contains(jc.getJobCandidateId())) set.add(jc);
+                if (!old.contains(jc.getJobCandidateId())) set.add(jc);
                 old.add(jc.getJobCandidateId());
             }
         }

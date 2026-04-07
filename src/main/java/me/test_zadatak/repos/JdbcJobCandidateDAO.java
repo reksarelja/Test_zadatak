@@ -17,7 +17,6 @@ public class JdbcJobCandidateDAO implements JobCandidateDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     @Override
     public void save(JobCandidate jobCandidate) {
 
@@ -82,7 +81,7 @@ public class JdbcJobCandidateDAO implements JobCandidateDAO {
     @Override
     public int deleteById(int id) {
 
-       return jdbcTemplate.update("DELETE FROM " +
+        return jdbcTemplate.update("DELETE FROM " +
                 "JOB_CANDIDATE WHERE " +
                 "JOB_CANDIDATE_ID = ?", id);
     }

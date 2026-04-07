@@ -2,18 +2,12 @@ package me.test_zadatak.repos;
 
 import me.test_zadatak.daos.Job2skillDAO;
 import me.test_zadatak.entities.Job2skill;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class JdbcJob2SkillDAO implements Job2skillDAO {
-
-    @Autowired
-    JdbcJobCandidateDAO jcDAO;
-    @Autowired
-    JdbcSkillDAO sDAO;
 
     private final JdbcTemplate jdbcTemplate;
 
