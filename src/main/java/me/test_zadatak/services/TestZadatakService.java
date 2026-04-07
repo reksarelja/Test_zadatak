@@ -7,13 +7,16 @@ import me.test_zadatak.dtos.Job2skillDTO;
 import me.test_zadatak.dtos.JobCandidateDTO;
 import me.test_zadatak.dtos.SkillDTO;
 import me.test_zadatak.entities.Job2skill;
+import me.test_zadatak.entities.Job2skillId;
 import me.test_zadatak.entities.JobCandidate;
 import me.test_zadatak.entities.Skill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TestZadatakService {
@@ -64,7 +67,6 @@ public class TestZadatakService {
     public boolean addJobCandidate2Skill(Job2skillDTO dto) {
         Job2skill job2skill = new Job2skill();
         try {
-
             job2skill.setJobCandidate(dto.getJobCandidate());
             job2skill.setSkill(dto.getSkill());
 
@@ -79,9 +81,9 @@ public class TestZadatakService {
 
     public boolean removeSkillFromCandidate(int skillId, int candidateSkill) {
         try {
-            j2sDAO.remove(candidateSkill, skillId);
+            int res = j2sDAO.remove(candidateSkill, skillId);
 
-            return true;
+            return res > 0;
 
         } catch (Exception e) {
             return false;
@@ -92,9 +94,9 @@ public class TestZadatakService {
     public boolean removeCandidate(int id) {
         try {
 
-            jcDAO.deleteById(id);
+            int res = jcDAO.deleteById(id);
 
-            return true;
+            return res > 0;
 
         } catch (Exception e) {
             return false;
@@ -110,12 +112,16 @@ public class TestZadatakService {
 
     }
 
-    public HashSet<JobCandidate> getCandidateBySkill(List<Integer> ids) {
+    public ArrayList<JobCandidate> getCandidateBySkill(List<Integer> ids) {
 
-        HashSet<JobCandidate> set = new HashSet<>();
-
+        ArrayList<JobCandidate> set = new ArrayList<>();
+        ArrayList<Integer> old = new ArrayList<>();
         for (int id : ids) {
-            set.addAll(jcDAO.findBySkill(id));
+            List<JobCandidate> list = jcDAO.findBySkill(id);
+            for (JobCandidate jc : list) {
+                if(!old.contains(jc.getJobCandidateId())) set.add(jc);
+                old.add(jc.getJobCandidateId());
+            }
         }
 
         return set;

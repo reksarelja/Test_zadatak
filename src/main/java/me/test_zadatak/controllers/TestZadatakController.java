@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class TestZadatakController {
     @PostMapping("give_candidate_skill")
     public ResponseEntity<?> giveCandidateSkill(@RequestBody @Valid Job2skillDTO j2s) {
 
+        System.out.println(j2s);
+
         boolean result = service.addJobCandidate2Skill(j2s);
 
         if (result) return ResponseEntity.ok("Uspesno sacuvana vestina kandidata");
@@ -57,18 +60,22 @@ public class TestZadatakController {
     @DeleteMapping("remove_skill_from_candidate/{candidateId}/{skillId}")
     public ResponseEntity<?> removeSkillCandidate(@PathVariable int candidateId, @PathVariable int skillId) {
 
-        service.removeSkillFromCandidate(candidateId, skillId);
+        boolean result = service.removeSkillFromCandidate(candidateId, skillId);
 
-        return ResponseEntity.ok("Uspesno uklonjena vestina kandidata");
+        if (result) return ResponseEntity.ok("Uspesno obrisana vestina kandidata");
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greska pri brisanju vestine kandidata");
 
     }
 
     @DeleteMapping("remove_candidate/{id}")
     public ResponseEntity<?> removeCandidate(@PathVariable("id") int candidateId) {
 
-        service.removeCandidate(candidateId);
+        boolean result = service.removeCandidate(candidateId);
 
-        return ResponseEntity.ok("Uspesno uklonjen kandidat");
+        if (result) return ResponseEntity.ok("Uspesno obrisan kandidat");
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Greska pri brisanju kandidata");
 
     }
 
@@ -83,7 +90,7 @@ public class TestZadatakController {
     @GetMapping("search_candidate_skill/{skills}")
     public ResponseEntity<?> searchCandidateViaSkill(@PathVariable("skills") List<Integer> ids) {
 
-        HashSet<JobCandidate> set = service.getCandidateBySkill(ids);
+        ArrayList<JobCandidate> set = service.getCandidateBySkill(ids);
 
         return ResponseEntity.ok().body(set);
     }

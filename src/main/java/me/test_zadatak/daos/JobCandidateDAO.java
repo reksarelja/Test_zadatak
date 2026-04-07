@@ -14,13 +14,11 @@ public interface JobCandidateDAO {
     //TODO search job
     List<JobCandidate> findByName(String name);
 
-    JobCandidate findById(int id);
-
     //TODO search all job with skill(s)
     List<JobCandidate> findBySkill(int skillId);
 
     //TODO remove job
-    void deleteById(int id);
+    int deleteById(int id);
 
 
 }

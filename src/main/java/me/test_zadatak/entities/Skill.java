@@ -8,18 +8,18 @@ public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SKILL_ID", nullable = false)
-    private Integer id;
+    private Integer skillId;
 
     @Lob
     @Column(name = "SKILL_NAME")
     private String skillName;
 
-    public Integer getId() {
-        return id;
+    public Integer getSkillId() {
+        return skillId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
     }
 
     public String getSkillName() {
@@ -33,7 +33,7 @@ public class Skill {
     @Override
     public String toString() {
         return "Skill{" +
-                "id=" + id +
+                "skillId=" + skillId +
                 ", skillName='" + skillName + '\'' +
                 '}';
     }

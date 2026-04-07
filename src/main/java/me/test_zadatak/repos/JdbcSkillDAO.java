@@ -23,36 +23,4 @@ public class JdbcSkillDAO implements SkillDAO {
                 skill.getSkillName());
 
     }
-
-    @Override
-    public Skill findByName(String name) {
-
-        return jdbcTemplate.queryForObject("SELECT * FROM " +
-                        "SKILL WHERE " +
-                        "SKILL_NAME = ? ",
-                (rs, rowNum) -> {
-                    Skill skill = new Skill();
-                    skill.setId(rs.getInt("skill_id"));
-                    skill.setSkillName(rs.getString("skill_name"));
-                    return skill;
-                },
-                name);
-
-    }
-
-    @Override
-    public Skill findById(int id) {
-
-        return jdbcTemplate.queryForObject("SELECT * FROM " +
-                        "SKILL WHERE " +
-                        "SKILL_ID = ? ",
-                (rs, rowNum) -> {
-                    Skill skill = new Skill();
-                    skill.setId(rs.getInt("skill_id"));
-                    skill.setSkillName(rs.getString("skill_name"));
-                    return skill;
-                },
-                id);
-
-    }
 }

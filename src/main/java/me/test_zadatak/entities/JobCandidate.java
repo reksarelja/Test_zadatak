@@ -10,7 +10,7 @@ public class JobCandidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "JOB_CANDIDATE_ID", nullable = false)
-    private Integer id;
+    private Integer jobCandidateId;
 
     @Lob
     @Column(name = "JOB_CANDIDATE_NAME")
@@ -27,12 +27,12 @@ public class JobCandidate {
     @Column(name = "JOB_CANDIDATE_E_MAIL")
     private String jobCandidateEMail;
 
-    public Integer getId() {
-        return id;
+    public Integer getJobCandidateId() {
+        return jobCandidateId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setJobCandidateId(Integer jobCandidateId) {
+        this.jobCandidateId = jobCandidateId;
     }
 
     public String getJobCandidateName() {
@@ -70,7 +70,7 @@ public class JobCandidate {
     @Override
     public String toString() {
         return "JobCandidate{" +
-                "id=" + id +
+                "jobCandidateId=" + jobCandidateId +
                 ", jobCandidateName='" + jobCandidateName + '\'' +
                 ", jobCandidateDateOfBirth=" + jobCandidateDateOfBirth +
                 ", jobCandidateContactNumber='" + jobCandidateContactNumber + '\'' +

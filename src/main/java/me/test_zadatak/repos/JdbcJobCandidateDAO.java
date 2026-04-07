@@ -44,7 +44,7 @@ public class JdbcJobCandidateDAO implements JobCandidateDAO {
                 (rs, rowNum) -> {
 
                     JobCandidate jc = new JobCandidate();
-                    jc.setId(rs.getInt("job_candidate_id"));
+                    jc.setJobCandidateId(rs.getInt("job_candidate_id"));
                     jc.setJobCandidateName(rs.getString("job_candidate_name"));
                     jc.setJobCandidateDateOfBirth(rs.getObject("job_candidate_date_of_birth", LocalDate.class));
                     jc.setJobCandidateContactNumber(rs.getString("job_candidate_contact_number"));
@@ -57,28 +57,6 @@ public class JdbcJobCandidateDAO implements JobCandidateDAO {
     }
 
     @Override
-    public JobCandidate findById(int id) {
-
-        return jdbcTemplate.queryForObject(
-                "SELECT * FROM " +
-                        "job_candidate WHERE " +
-                        "JOB_CANDIDATE_ID = ?",
-                (rs, rowNum) -> {
-
-                    JobCandidate jc = new JobCandidate();
-                    jc.setId(rs.getInt("job_candidate_id"));
-                    jc.setJobCandidateName(rs.getString("job_candidate_name"));
-                    jc.setJobCandidateDateOfBirth(rs.getObject("job_candidate_date_of_birth", LocalDate.class));
-                    jc.setJobCandidateContactNumber(rs.getString("job_candidate_contact_number"));
-                    jc.setJobCandidateEMail(rs.getString("job_candidate_e_mail"));
-                    return jc;
-
-                },
-                id);
-
-    }
-
-    @Override
     public List<JobCandidate> findBySkill(int skillId) {
 
         return jdbcTemplate.query(
@@ -86,11 +64,11 @@ public class JdbcJobCandidateDAO implements JobCandidateDAO {
                         "JOB_CANDIDATE jc LEFT JOIN " +
                         "JOB2SKILL j2s ON " +
                         "jc.JOB_CANDIDATE_ID = j2s.JOB_CANDIDATE_ID WHERE " +
-                        "SKILL_ID = ?",
+                        "j2s.SKILL_ID = ? ",
                 (rs, rowCount) -> {
 
                     JobCandidate candidate = new JobCandidate();
-                    candidate.setId(rs.getInt("job_candidate_id"));
+                    candidate.setJobCandidateId(rs.getInt("job_candidate_id"));
                     candidate.setJobCandidateDateOfBirth(rs.getObject("job_candidate_date_of_birth", LocalDate.class));
                     candidate.setJobCandidateEMail(rs.getString("job_candidate_e_mail"));
                     candidate.setJobCandidateContactNumber(rs.getString("job_candidate_contact_number"));
@@ -102,9 +80,9 @@ public class JdbcJobCandidateDAO implements JobCandidateDAO {
     }
 
     @Override
-    public void deleteById(int id) {
+    public int deleteById(int id) {
 
-        jdbcTemplate.update("DELETE FROM " +
+       return jdbcTemplate.update("DELETE FROM " +
                 "JOB_CANDIDATE WHERE " +
                 "JOB_CANDIDATE_ID = ?", id);
     }

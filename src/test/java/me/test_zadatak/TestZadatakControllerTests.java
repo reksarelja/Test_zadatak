@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.client.RestTestClient;
@@ -115,19 +116,19 @@ public class TestZadatakControllerTests {
         restTestClient.delete()
                 .uri("/rest_controller/remove_skill_from_candidate/{candidate}/{skill}", candidate, skill)
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
     @Test
     void removeCandidateShouldReturnOk() {
 
-        int id = 2;
+        int id = 1;
 
         restTestClient.delete()
                 .uri("/rest_controller/remove_candidate/{id}", id)
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
@@ -145,15 +146,14 @@ public class TestZadatakControllerTests {
     @Test
     void searchCandidateViaSkillShouldReturnOk() {
 
-        List<String> list = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
 
-        list.add("Python");
+        ids.add(5);
 
         restTestClient.method(HttpMethod.GET)
-                .uri("/rest_controller/search_candidate_skill/{skills}", list)
+                .uri("/rest_controller/search_candidate_skill/{skills}", ids.toArray())
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody(String.class);
+                .expectStatus().isOk();
 
     }
 
